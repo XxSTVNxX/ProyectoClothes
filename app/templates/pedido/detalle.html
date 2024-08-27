@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Pedido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Detalles del Pedido</h1>
+    <p><strong>Pedido ID:</strong> {{ pedido.id }}</p>
+    <p><strong>Cliente:</strong> {{ pedido.nombre_cliente }} {{ pedido.apellido_cliente }}</p>
+    <p><strong>Email:</strong> {{ pedido.email_cliente }}</p>
+    <p><strong>Dirección:</strong> {{ pedido.direccion_cliente }}</p>
+    <p><strong>Teléfono:</strong> {{ pedido.telefono_cliente }}</p>
+
+    <h2>Items del Pedido</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Descripción</th>
+                <th>Talla</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.producto.nombre }}</td>
+                <td>{{ item.producto.descripcion }}</td>
+                <td>{{ item.talla }}</td>
+                <td>{{ item.producto.precio }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td>{{ item.producto.precio * item.cantidad }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Estado del Envío</h2>
+    {% if envio %}
+        <p>Estado: {{ envio.estado }}</p>
+    {% else %}
+        <p>El pedido aún no ha sido enviado.</p>
+    {% endif %}
+
+    <form action="{{ url_for('pedido.marcar_envio', id=pedido.id) }}" method="post">
+        <button type="submit">Marcar como Enviado</button>
+    </form>
+
+    <a href="{{ url_for('pedido.listar_pedidos') }}">Volver a la lista de pedidos</a>
+</body>
+</html>

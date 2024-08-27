@@ -1,0 +1,51 @@
+<form method="GET" action="{{ url_for('producto.listar_productos') }}">
+    <label for="categoria_id">Categoría:</label>
+    <select name="categoria_id" id="categoria_id">
+        <option value="">Todas las Categorías</option>
+        {% for categoria in categorias %}
+            <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="genero">
+        <option value="">Todos los Géneros</option>
+        <option value="Hombre">Hombre</option>
+        <option value="Mujer">Mujer</option>
+    </select>
+
+    <select name="tipo">
+        <option value="">Todos los Tipos</option>
+        <option value="Camisa">Camisas</option>
+        <option value="Pantalón">Pantalones</option>
+        <!-- Agrega más tipos según sea necesario -->
+    </select>
+
+    <select name="color">
+        <option value="">Todos los Colores</option>
+        <option value="Rojo">Rojo</option>
+        <option value="Azul">Azul</option>
+        <!-- Agrega más colores según sea necesario -->
+    </select>
+
+    <select name="talla">
+        <option value="">Todas las Tallas</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <!-- Agrega más tallas según sea necesario -->
+    </select>
+
+    <button type="submit">Filtrar</button>
+</form>
+
+<div class="productos-container">
+    {% for producto in productos %}
+        <div class="producto-card">
+            <h2>{{ producto.nombre }}</h2>
+            <p>Precio: ${{ "{:,.0f}".format(producto.precio) }}</p>
+            <p>Descripción: {{ producto.descripcion }}</p>
+            <img src="{{ url_for('static', filename='images/' + producto.imagen) }}" alt="{{ producto.nombre }}">
+            <a href="{{ url_for('producto.detalle', id=producto.id) }}" class="btn-detalle">Ver Detalles</a>
+        </div>
+    {% endfor %}
+</div>

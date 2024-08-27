@@ -1,0 +1,39 @@
+<!-- templates/producto/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Índice de Productos</title>
+<!-- Enlaza el CSS en la sección <head> de tus plantillas -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='producto.css') }}">
+</head>
+<body>
+    <h1>Productos</h1>
+    <a href="{{ url_for('producto.add') }}">Agregar Producto</a> <br>
+    <a href="{{ url_for('categoria.index') }}">Categorías</a>
+    
+    <div class="productos-container">
+        {% for producto in productos %}
+            <div class="producto-card">
+                <p>Precio: ${{ "{:,.0f}".format(producto.precio) }}</p>
+                <p>Descripción: {{ producto.descripcion }}</p>
+                
+                {% if producto.imagen %}
+
+                    {% set direccion = 'images/' + producto.imagen %}
+                    <img src="{{ url_for('static', filename=direccion) }}" alt="{{ producto.nombre }}">
+                {% endif %}
+
+                <a href="{{ url_for('producto.detalle', id=producto.id) }}" class="btn-detalle">Ver Detalles</a>
+                <a href="{{ url_for('producto.edit', id=producto.id) }}">Editar</a>
+                <form action="{{ url_for('producto.delete', id=producto.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn-delete">Eliminar</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+    
+</body>
+</html>

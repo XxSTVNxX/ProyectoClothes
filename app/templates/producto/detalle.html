@@ -1,0 +1,39 @@
+<!-- templates/producto/detalle.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ producto.nombre }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='producto.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ producto.nombre }}</h1>
+        <p>{{ producto.descripcion }}</p>
+        <p>Precio:  ${{ "{:,.0f}".format(producto.precio) }}</p>
+
+        <form action="{{ url_for('carrito.agregar_al_carrito', producto_id=producto.id) }}" method="POST" style="display:inline;">
+            <label for="talla">Talla:</label>
+            <select name="talla" required>
+                <option value="" disabled selected>Selecciona una talla</option>
+                {% for talla in tallas %}
+                    <option value="{{ talla }}">{{ talla }}</option>
+                {% endfor %}
+            </select>
+        
+            <label for="color">Color:</label>
+            <select name="color" required>
+                <option value="" disabled selected>Selecciona un color</option>
+                {% for color in colores %}
+                    <option value="{{ color }}">{{ color }}</option>
+                {% endfor %}
+            </select>
+        
+            <input type="number" name="cantidad" value="1" min="1" style="width: 50px;">
+            <button type="submit">Agregar al Carrito</button>
+        </form>
+        
+        
+        
+</html>

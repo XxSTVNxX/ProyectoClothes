@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Categorías</title>
+</head>
+<body>
+    <h1>Lista de Categorías</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre de la Categoría</th>
+            <th>Acciones</th>
+        </tr>  
+        {% for categoria in data %}
+            <tr>
+                <td>{{ categoria.id }}</td>
+                <td>{{ categoria.nombre }}</td>
+                <td>
+                    <a href="{{ url_for('categoria.edit', id=categoria.id) }}">Editar</a>
+                    <a href="{{ url_for('categoria.delete', id=categoria.id) }}">Eliminar</a> 
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('categoria.add') }}">Agregar Categoría</a>
+    <a href="{{ url_for('producto.index') }}">Ir a Productos</a>
+</body>
+</html>

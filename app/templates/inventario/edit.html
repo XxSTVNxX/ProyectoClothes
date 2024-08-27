@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Editar Inventario</title>
+</head>
+<h1>Editar Proveedor</h1>
+
+<form action="{{ url_for('inventario.editar_proveedor', inventario_id=inventario.id) }}" method="POST">
+    <label for="proveedor_id">Selecciona un nuevo proveedor:</label>
+    <select name="proveedor_id" required>
+        {% for proveedor in proveedores %}
+        <option value="{{ proveedor.id }}" {% if inventario.proveedor_id == proveedor.id %}selected{% endif %}>
+            {{ proveedor.nombre }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Actualizar Proveedor</button>
+</form>
+
+<a href="{{ url_for('inventario.ver_inventario') }}">Volver al Inventario</a>

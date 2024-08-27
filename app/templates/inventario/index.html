@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Inventario</title>
+</head>
+<body>
+    <h1>Inventario</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID Producto</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Colores</th>
+                <th>Tallas</th>
+                <th>Cantidad</th>
+                <th>Proveedor</th>
+                <th>Precio Unitario</th>
+                <th>Costo Total</th>
+                <th>Fecha de Ingreso</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in inventarios %}
+            <tr>
+                <td>{{ item.producto.id }}</td>
+                <td>{{ item.producto.nombre }}</td>
+                <td>{{ item.producto.descripcion }}</td>
+                <td>{{ item.producto.colores }}</td>
+                <td>{{ item.producto.tallas }}</td>
+                <td>{{ item.producto.stock }}</td>
+                <td>
+                    {% if item.proveedor %}
+                        {{ item.proveedor.nombre }} 
+                        <a href="{{ url_for('inventario.editar_proveedor', inventario_id=item.id) }}">Editar</a>
+                    {% else %}
+                    <form id="form-proveedor-{{ item.id }}" action="{{ url_for('inventario.actualizar_proveedor', inventario_id=item.id) }}" method="POST" style="display:inline;">
+                        <select name="proveedor_id" onchange="this.form.submit(); this.style.display='none';">
+                            <option value="" disabled selected>Selecciona un proveedor</option>
+                            {% for proveedor in proveedores %}
+                            <option value="{{ proveedor.id }}">{{ proveedor.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                    {% endif %}
+                </td>
+                <td>${{ "{:,.0f}".format (item.producto.precio) }}</td>
+                <td>${{ "{:,.0f}".format(item.producto.stock * item.producto.precio) }}</td>
+                <td>{{ item.producto.fecha_ingreso.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

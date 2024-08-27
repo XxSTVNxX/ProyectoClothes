@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Carrito de Compras</title>
+</head>
+<body>
+    <h1>Carrito de Compras</h1>
+
+    <ul>
+        {% for item in productos %}
+            <li>
+                {{ item.producto.nombre }} - 
+                Talla: {{ item.talla }} - 
+                Color: {{ item.color }} - 
+                Cantidad: {{ item.cantidad }}
+                <form action="{{ url_for('carrito.eliminar_del_carrito', producto_id=item.producto.id) }}" method="POST" style="display:inline;">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('carrito.checkout') }}">Proceder al Pago</a>
+</body>
+</html>

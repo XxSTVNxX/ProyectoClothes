@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Lista de Pedidos</title>
+</head>
+<h1>Pedidos Cancelados</h1>
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre del Cliente</th>
+            <th>Email</th>
+            <th>Identificación</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedido in pedidos %}
+        <tr>
+            <td>{{ pedido.id }}</td>
+            <td>{{ pedido.nombre_cliente }} {{ pedido.apellido_cliente }}</td>
+            <td>{{ pedido.email_cliente }}</td>
+            <td>{{ pedido.identificacion }}</td>
+            <td>{{ pedido.direccion_cliente }}</td>
+            <td>{{ pedido.telefono_cliente }}</td>
+            <td>
+                <form action="{{ url_for('pedido.restaurar_pedido', id=pedido.id) }}" method="post" style="display:inline;">
+                    <button type="submit">Restaurar</button>
+                </form>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('pedido.listar_pedidos') }}">Volver a Pedidos Pendientes</a>
